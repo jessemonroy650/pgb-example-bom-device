@@ -7,8 +7,8 @@
         <!-- versionCode is optional and Android only -->
         <preference name="phonegap-version" value="cli-6.0.0" />
 
-        <name>PGB Example BOM Device plugin</name>
-        <description>PGB Example BOM Device plugin</description>
+        <name>PGB Example BOM Device</name>
+        <description>PGB Example BOM (Browser Object Model) + Cordova Device plugin</description>
         <author href="http://bsdmasterindex.com" email="jessemonroy650@yahoo.com">
         Jesse Monroy
         </author>
