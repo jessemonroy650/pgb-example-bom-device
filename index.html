@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html class=height100percent>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>PGB Example BOM+Device</title>
+    <meta name="viewport" content="width=device-width">
+    <link rel="stylesheet" href="buttons.css" />
+    <style>
+    body {margin:0px;font-size:large;}
+    .hidden {visibility:collapse;display:none;}
+    .expose {visibility:visible;display:block;} /* Here for completeness only. */
+    .height100percent {height:100%} 
+    .copyright {padding:5px;align:left;font-style:italic;font-size:small;}
+    .spacer {margin:0.5em;}
+    #header {margin:0;padding:0;}
+    #exitApp {margin:1em;float:right;}
+    /* app specific */
+    .uuid {font-size:small;}
+    /* app specific - background colors */
+    .r {background-color:hsl(0,25%,75%);}   /* pastel-red */
+    .g {background-color:hsl(135,25%,75%);} /* pastel-gree */
+    .b {background-color:hsl(225,25%,75%);} /* pastel-blue */
+    .a {background-color:hsl(45,25%,75%);}  /* pastel-gold */
+    .p {background-color:hsl(270,25%,75%);} /* pastel-purple */
+    </style>
+    <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
+</head>
+<body onload="onLoad()" class=height100percent>
+    <div id=header class="button button-block button-large">
+        <img align=left src=favicon-48x48.png>
+        PGB Example BOM+Device
+        <button id=exitApp onclick='navigator.app.exitApp()' class="button button-pill button-primary button-large" style="margin:0.1em;float:right;">Exit</button>
+    </div>
+
+    <h2>Browser Reporting v<span id=appVersion></span></h2>
+
+    <p class=spacer />
+    navigator.appCodeName: <span id=navCodeName>false</span><br>
+    navigator.appName: <span id=navName>false</span><br>
+    navigator.appVersion: <span id=navVersion>false</span><br>
+    navigator.platform:  <span id=navPlatform>false</span><br>
+    isCordovaApp: <span id=isCordovaApp>false</span><br>
+    isKnownDevice: <span id=isKnownDevice>false</span><br>
+
+    <hr/>
+    <button onclick='onButtonClick()' class="button button-pill button-action button-large">(No Text)</button>
+    <button onclick='alert("This is an alert().")' class="button button-pill button-action button-large">Alert</button>
+    <button onclick='confirmDialog("This is a great day.")' class="button button-pill button-action button-large">Confirm</button>
+    <button onclick='promptDialog("Please change the word Dummy.", "Dummy")' class="button button-pill button-action button-large">Prompt</button>
+
+    <hr/>
+    <div id=confirmResponse>confirmDialog not used</div>
+    <div id=promptResponse>promptDialog not use</div>
+
+    <h2>Navigator</h2>
+    <div id=navigatorStuff>NavigatorStuff Not Loaded.</div>
+
+    <h2>Screen</h2>
+    <div id=screenStuff>ScreenStuff Not Loaded.</div>
+
+    <h2>Window</h2>
+    <div id=windowStuff>windowStuff Not Loaded.</div>
+
+    <h2>corova.device</h2>
+    <div id=deviceStuff>deviceStuff Not Loaded.</div>
+
+    <div class="copyright">
+        <span id=copyright>Created by Jesus Monroy, Jr. &copy; 2018</span>
+    </div>
+</body>
+    <script type="text/javascript">
+    var app = {
+        version : '1.0.0',
+    }
+    // - https://videlais.com/2014/08/21/lessons-learned-from-detecting-apache-cordova/
+    function isCordovaApp(x) {
+        return (typeof x !== "undefined");
+    }
+    //
+    function isKnownDevice(obj) {
+        var validPGDevices = [
+            'armv7',
+            'iPad',
+            'iPhone',
+            'iPod'
+        ];
+        var i = 0, result = -1, answer = false;
+        for (i = 0; i < validPGDevices.length; i++){
+            // https://www.w3schools.com/jsref/jsref_search.asp
+            result = obj.search(validPGDevices[i]);
+            if (result != -1) {
+                answer = validPGDevices[i]; break;
+            }
+        }
+
+        return answer;
+    }
+    //
+    function onButtonClick() {
+        alert("button clicked.");
+    }
+    //
+    function confirmDialog(message) {
+        response = confirm(message)
+        document.getElementById('confirmResponse').innerHTML = response;
+    }
+    //
+    function promptDialog(message, defaultResponse) {
+        response = prompt(message, defaultResponse)
+        if (response != null) {
+            document.getElementById('promptResponse').innerHTML = response;
+        } else {
+            document.getElementById('promptResponse').innerHTML = defaultResponse;
+        }
+    }
+    // 
+    function navigatorStuff() {
+        var navigatorStuff = "" +
+        "<p class=a /><b>navigator.appCodeName:</b> "   + navigator.appCodeName +
+        "<p class=p /><b>navigator.appName:</b> "       + navigator.appName +
+        "<p class=a /><b>navigator.appVersion:</b> "    + navigator.appVersion +
+        "<p class=p /><b>navigator.cookieEnabled:</b> " + navigator.cookieEnabled +  
+        "<p class=a /><b>navigator.language:</b> "      + navigator.language +
+        "<p class=p /><b>navigator.userAgent:</b> "     + navigator.userAgent +
+        "<p class=a /><b>navigator.platform:</b> "      + navigator.platform + 
+        "<p class=p /><b>navigator.onLine:</b> "        + navigator.onLine +
+        "<p class=a /><b>Java Enabled:</b> "            + navigator.javaEnabled();
+
+		document.getElementById('navigatorStuff').innerHTML = navigatorStuff;
+    }
+    //
+    function screenStuff() {
+        var screenStuff = "" +
+        "<p class=r /><b>screen.width:</b> "       + screen.width +
+        "<p class=g /><b>screen.height:</b> "      + screen.height +
+        "<p class=b /><b>screen.availWidth:</b> "  + screen.availWidth +
+        "<p class=r /><b>screen.availHeight:</b> " + screen.availHeight +
+        "<p class=g /><b>screen.colorDepth:</b> "  + screen.colorDepth +
+        "<p class=b /><b>screen.pixelDepth:</b> "  + screen.pixelDepth;  
+
+        document.getElementById('screenStuff').innerHTML = screenStuff;
+    }
+    // 
+    function windowStuff() {
+        var windowStuff = "" +
+        "<p class=p /><b>window.innerWidth:</b> "  + window.innerWidth +
+        "<p class=a /><b>window.innerHeight:</b> " + window.innerHeight +
+        "<p class=p /><b>window.outerWidth:</b> "  + window.outerWidth +
+        "<p class=a /><b>window.outerHeight:</b> " + window.outerHeight;
+
+        document.getElementById('windowStuff').innerHTML = windowStuff;
+    }
+    //
+    function deviceStuff() {
+        var deviceStuff = "" +
+        "<p class=r /><b>device.cordova:</b> "       + device.cordova +
+        "<p class=g /><b>device.model:</b> "         + device.model +
+        "<p class=b /><b>device.platform:</b> "      + device.platform +
+        "<p class=a /><b>device.uuid:</b> "          + device.uuid +
+        "<p class=p /><b>device.version:</b> "       + device.version +
+        "<p class=r /><b>device.manufacturer:</b> "  + device.manufacturer +
+        "<p class=g /><b>device.isVirtual:</b> "     + device.isVirtual +
+        "<p class=b /><b>device.serial:</b> "        + device.serial;
+ 
+        document.getElementById('deviceStuff').innerHTML = deviceStuff;
+    }
+    //
+    function onLoad() {
+        alert("body loaded.");
+        onDeviceReady();
+    }
+    //
+    function onDOMContentLoaded() {
+        document.getElementById('navCodeName').innerHTML = navigator.appCodeName;
+        document.getElementById('navName').innerHTML     = navigator.appName;
+        document.getElementById('navVersion').innerHTML  = navigator.appVersion;
+        document.getElementById('navPlatform').innerHTML = navigator.platform;
+    }
+    //
+    function onDeviceReady() {
+        alert("device ready.");
+        navigatorStuff();
+        screenStuff();
+        windowStuff();
+        if (isCordovaApp(window.cordova)) {
+            deviceStuff();
+        }
+        document.getElementById('isCordovaApp').innerHTML  = isCordovaApp(window.cordova);
+        document.getElementById('isKnownDevice').innerHTML = isKnownDevice(navigator.platform);
+        document.getElementById('appVersion').innerHTML    = app.version;
+    }
+    // The 'DOMContentLoaded' event fires before the 'deviceready'
+    document.addEventListener('DOMContentLoaded', onDOMContentLoaded, false);
+    // Wait for PhoneGap to load
+    document.addEventListener("deviceready", onDeviceReady, false);
+    </script>
+</html>
+
+
+
